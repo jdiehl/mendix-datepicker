@@ -33,6 +33,7 @@
   },
   "dependencies": {
     "classnames": "^2.2.6",
+    "date-fns": "^2.28.0",
     "react-day-picker": "^7.4.10"
   }
 }
