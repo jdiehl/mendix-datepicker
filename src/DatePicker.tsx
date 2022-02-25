@@ -1,31 +1,51 @@
 import { ReactElement, createElement } from "react";
-import DayPicker, { Modifier } from "react-day-picker";
-import { isSameDay } from "date-fns";
+import { Modifier, DayPickerProps, DateUtils } from "react-day-picker";
+const DayPickerInput = require("react-day-picker/DayPickerInput").default;
+import isSameDay from "date-fns/isSameDay";
+import dateFnsFormat from "date-fns/format";
+import dateFnsParse from "date-fns/parse";
 
 import { DatePickerContainerProps } from "../typings/DatePickerProps";
 
-import "react-day-picker/lib/style.css";
 import "./ui/DatePicker.css";
 
-export function DatePicker(props: DatePickerContainerProps): ReactElement {
-    const { value, disableWeekends, disabledDays, disabledDaysKey } = props;
+const FORMAT = "dd.MM.yyyy";
+
+function parseDate(str: string, format: string, locale: any): Date | undefined {
+    const parsed = dateFnsParse(str, format, new Date(), { locale });
+    if (DateUtils.isDate(parsed)) {
+        return parsed;
+    }
+    return undefined;
+}
+
+function formatDate(date: Date, format: string, locale: any): string {
+    return dateFnsFormat(date, format, { locale });
+}
+
+export function DatePicker(props: DatePickerContainerProps): ReactElement | null {
+    const { dateAttr, disableWeekends, disabled, disabledKey } = props;
+
+    if (!dateAttr) {
+        return null;
+    }
 
     // disabled days
-    const disabled: Modifier[] = [];
+    const disabledDays: Modifier[] = [];
     if (disableWeekends) {
-        disabled.push({ daysOfWeek: [0, 6] });
+        disabledDays.push({ daysOfWeek: [0, 6] });
     }
-    if (disabledDaysKey && disabledDays && disabledDays.items) {
-        for (const item of disabledDays.items) {
-            const date = disabledDaysKey.get(item).value;
-            disabled.push(date);
+    if (disabledKey && disabled?.items) {
+        for (const item of disabled.items) {
+            const date = disabledKey.get(item).value;
+            disabledDays.push(date);
         }
     }
 
     // change handler
-    const onChange = (date: Date): void => {
+    const onDayClick = (date: Date): void => {
         // do not allow disbaled days
-        if (disabled.filter(d => d instanceof Date).find(d => isSameDay(d as Date, date))) {
+        if (disabledDays.filter(d => d instanceof Date).find(d => isSameDay(d as Date, date))) {
             return;
         }
 
@@ -37,8 +57,20 @@ export function DatePicker(props: DatePickerContainerProps): ReactElement {
             }
         }
 
-        value.setValue(date);
+        dateAttr.setValue(date);
     };
 
-    return <DayPicker selectedDays={value.value} onDayClick={onChange} disabledDays={disabled} />;
+    // day picker props
+    const dayPickerProps: DayPickerProps = { onDayClick, disabledDays };
+
+    return (
+        <DayPickerInput
+            formatDate={formatDate}
+            format={FORMAT}
+            parseDate={parseDate}
+            placeholder={`${dateFnsFormat(new Date(), FORMAT)}`}
+            value={dateAttr.value}
+            dayPickerProps={dayPickerProps}
+        />
+    );
 }

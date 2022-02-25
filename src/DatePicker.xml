@@ -9,7 +9,7 @@
     <properties>
         <propertyGroup caption="General">
             <propertyGroup caption="Data Source">
-                <property key="value" type="attribute">
+                <property key="dateAttr" type="attribute">
                     <caption>Attribute</caption>
                     <description />
                     <attributeTypes>
@@ -22,11 +22,11 @@
                     <caption>Disable Weekends</caption>
                     <description />
                 </property>
-                <property key="disabledDays" type="datasource" isList="true" required="false">
+                <property key="disabled" type="datasource" isList="true" required="false">
                     <caption>Disable a custom list of days</caption>
                     <description />
                 </property>
-                <property key="disabledDaysKey" type="expression" dataSource="disabledDays" required="false">
+                <property key="disabledKey" type="expression" dataSource="disabled" required="false">
                     <caption>Date attribute for disabled days</caption>
                     <description />
                     <returnType type="DateTime" />

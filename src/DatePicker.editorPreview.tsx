@@ -1,7 +1,8 @@
 import { ReactElement, createElement } from "react";
+const DayPickerInput = require("react-day-picker/DayPickerInput").default;
 
 export function preview(): ReactElement {
-    return <div />;
+    return <DayPickerInput />;
 }
 
 export function getPreviewCss(): string {

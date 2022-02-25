@@ -10,7 +10,7 @@
   },
   "license": "Apache-2.0",
   "config": {
-    "projectPath": "/Volumes/[C] Windows 11/Users/Jonathan.Diehl/Documents/Mendix/Playground-main",
+    "projectPath": "/Volumes/[C] Windows 11/Users/Jonathan.Diehl/Documents/Mendix/Deutsche_Bahn_Demo-main",
     "mendixHost": "http://localhost:8080",
     "developmentPort": 3000
   },

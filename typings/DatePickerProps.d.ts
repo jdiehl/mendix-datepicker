@@ -11,10 +11,10 @@ export interface DatePickerContainerProps {
     class: string;
     style?: CSSProperties;
     tabIndex?: number;
-    value: EditableValue<Date>;
+    dateAttr: EditableValue<Date>;
     disableWeekends: boolean;
-    disabledDays?: ListValue;
-    disabledDaysKey?: ListExpressionValue<Date>;
+    disabled?: ListValue;
+    disabledKey?: ListExpressionValue<Date>;
 }
 
 export interface DatePickerPreviewProps {
@@ -22,8 +22,8 @@ export interface DatePickerPreviewProps {
     style: string;
     styleObject?: CSSProperties;
     readOnly: boolean;
-    value: string;
+    dateAttr: string;
     disableWeekends: boolean;
-    disabledDays: {} | { type: string } | null;
-    disabledDaysKey: string;
+    disabled: {} | { type: string } | null;
+    disabledKey: string;
 }
