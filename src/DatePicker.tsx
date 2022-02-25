@@ -1,7 +1,6 @@
 import { ReactElement, createElement } from "react";
 import { Modifier, DayPickerProps, DateUtils } from "react-day-picker";
 const DayPickerInput = require("react-day-picker/DayPickerInput").default;
-import isSameDay from "date-fns/isSameDay";
 import dateFnsFormat from "date-fns/format";
 import dateFnsParse from "date-fns/parse";
 
@@ -24,7 +23,7 @@ function formatDate(date: Date, format: string, locale: any): string {
 }
 
 export function DatePicker(props: DatePickerContainerProps): ReactElement | null {
-    const { dateAttr, disableWeekends, disabled, disabledKey } = props;
+    const { dateAttr, disableWeekends, disabled, disabledKey, onChange } = props;
 
     if (!dateAttr) {
         return null;
@@ -42,26 +41,16 @@ export function DatePicker(props: DatePickerContainerProps): ReactElement | null
         }
     }
 
-    // change handler
-    const onDayClick = (date: Date): void => {
-        // do not allow disbaled days
-        if (disabledDays.filter(d => d instanceof Date).find(d => isSameDay(d as Date, date))) {
-            return;
-        }
-
-        // do not allow weekends
-        if (disableWeekends) {
-            const weekDay = date.getDay();
-            if (weekDay === 6 || weekDay === 0) {
-                return;
-            }
-        }
-
+    // on day change
+    const onDayChange = (date: Date): void => {
         dateAttr.setValue(date);
+        if (onChange?.canExecute) {
+            onChange.execute();
+        }
     };
 
     // day picker props
-    const dayPickerProps: DayPickerProps = { onDayClick, disabledDays };
+    const dayPickerProps: DayPickerProps = { disabledDays };
 
     return (
         <DayPickerInput
@@ -69,8 +58,9 @@ export function DatePicker(props: DatePickerContainerProps): ReactElement | null
             format={FORMAT}
             parseDate={parseDate}
             placeholder={`${dateFnsFormat(new Date(), FORMAT)}`}
-            value={dateAttr.value}
             dayPickerProps={dayPickerProps}
+            onDayChange={onDayChange}
+            clickUnselectsDay
         />
     );
 }

@@ -32,6 +32,12 @@
                     <returnType type="DateTime" />
                 </property>
             </propertyGroup>
+            <propertyGroup caption="Events">
+                <property key="onChange" type="action">
+                    <caption>On change</caption>
+                    <description>Action to be performed when the date is changed</description>
+                </property>
+            </propertyGroup>
         </propertyGroup>
     </properties>
 </widget>

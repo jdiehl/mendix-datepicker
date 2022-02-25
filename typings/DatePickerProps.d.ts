@@ -4,7 +4,7 @@
  * @author Mendix UI Content Team
  */
 import { CSSProperties } from "react";
-import { EditableValue, ListValue, ListExpressionValue } from "mendix";
+import { ActionValue, EditableValue, ListValue, ListExpressionValue } from "mendix";
 
 export interface DatePickerContainerProps {
     name: string;
@@ -15,6 +15,7 @@ export interface DatePickerContainerProps {
     disableWeekends: boolean;
     disabled?: ListValue;
     disabledKey?: ListExpressionValue<Date>;
+    onChange?: ActionValue;
 }
 
 export interface DatePickerPreviewProps {
@@ -26,4 +27,5 @@ export interface DatePickerPreviewProps {
     disableWeekends: boolean;
     disabled: {} | { type: string } | null;
     disabledKey: string;
+    onChange: {} | null;
 }
